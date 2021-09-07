@@ -10,7 +10,7 @@ int q_arr[10];
 int menu()
 {
     int n;
-    puts("1. Assortment\n2. Buy\n");
+    puts("1. Assortment\n2. Add\n");
     scanf("%d", &n);
     return n;
 }
@@ -60,19 +60,15 @@ int main(void)
                 scanf("%d", &quantity);
                 for(int i = 0; i < n; i++)
                 {
-                    if((strcmp(name, assortment[i]) == 0) && (quantity <= q_arr[i]))
+                    if(strcmp(name, assortment[i]) == 0)
                     {
-                        q_arr[i] -= quantity;
+                        q_arr[i] += quantity;
                         result = quantity * price[i];
-                        printf("\nYour purchase: %d x %s - %d | =%d\n", quantity, assortment[i], price[i], result);
+                        printf("\nAdded %d %s, in stock %d\n", quantity, assortment[i], q_arr[i]);
                     }
                     else if(strcmp(name, assortment[i]) == 1)
                     {
                         printf("No such product\n");
-                    }
-                    else if(quantity > q_arr[i])
-                    {
-                        printf("Out of stock\n");
                     }
                 }
 
