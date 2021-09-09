@@ -26,13 +26,13 @@ typedef struct
 
 typedef struct
 {
-	// sockets
 	int fd;
 	struct sockaddr_in addr;
 	socklen_t addrlen;
-}	main_t;
+}	net_t;
 
-int socket_create(main_t *);
-int socket_bind(main_t *);
-ssize_t socket_send(main_t *, item_t *);
+int socket_create(net_t *);
+int socket_bind(net_t *);
+ssize_t socket_send(net_t *, item_t *);
+ssize_t socket_recv(net_t *, item_t *);
 void fill_item(item_t *);
