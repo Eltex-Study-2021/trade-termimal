@@ -35,4 +35,4 @@ int socket_create(net_t *);
 int socket_bind(net_t *);
 ssize_t socket_send(net_t *, item_t *);
 ssize_t socket_recv(net_t *, item_t *);
-void fill_item(item_t *);
+void init_item(item_t *);

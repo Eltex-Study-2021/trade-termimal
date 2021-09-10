@@ -1,6 +1,6 @@
 #include "net.h"
 
-int socket_create(net_t *net)
+int socket_create()
 {
 	int fd = socket(AF_INET, SOCK_STREAM, 0);
 	if(fd == -1)
@@ -12,8 +12,7 @@ int socket_create(net_t *net)
 	{
 		printf("Socket created\n");
 	}
-	net->fd = fd;
-	return 0;
+	return fd;
 }
 
 int socket_bind(net_t *net)
@@ -45,6 +44,11 @@ ssize_t socket_send(net_t *net, item_t *item)
 	ssize_t numRead = 0;
 	size_t buff_len = sizeof(*item);
 	char *buff = calloc(buff_len, sizeof(char));
+	if(buff == NULL)
+	{
+		printf("calloc return NULL\n");
+		exit(EXIT_FAILURE);
+	}
 	memcpy(buff, item, buff_len);
 
 	numRead = send(net->fd, buff, buff_len, 0);
@@ -53,10 +57,8 @@ ssize_t socket_send(net_t *net, item_t *item)
 		perror("send");
 		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		printf("send bytes %lu\n", numRead);
-	}
+	free(buff);
+
 	return numRead;
 }
 
@@ -72,22 +74,39 @@ ssize_t socket_recv(net_t *net, item_t *item)
 		perror("recv");
 		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		printf("recv bytes %lu\n", numRead);
-	}
+	//it's wrong...
+	memmove(item->id, buff, sizeof(uint16_t));
+	memmove(item->name, buff + sizeof(item->id), sizeof(item->name));
+	memmove(item->desc, buff + sizeof(item->name) + sizeof(item->id), sizeof(item->desc));
+	memmove(item->price, buff + sizeof(item->id) +
+			sizeof(item->name) + sizeof(item->desc), sizeof(item->price));
+	memmove(item->count, buff + sizeof(item->id) + sizeof(item->name) +
+	 		sizeof(item->desc) + sizeof(item->price), sizeof(item->count));
+
 	return numRead;
 }
 
-void fill_item(item_t *item)
+int socket_connect(net_t *net)
+{
+	if(-1 == connect(net->fd,
+					(const struct sockaddr *) &net->addr,
+					net->addrlen))
+	{
+		perror("connect");
+		exit(EXIT_FAILURE);
+	}
+	exit(EXIT_SUCCESS);
+}
+
+void init_item(item_t *item)
 {
 	item->id = 1;
 	item->name = calloc(30, sizeof(char));
 	item->desc = calloc(100, sizeof(char));
+	printf("Enter name: \n");
 	fgets(item->name, 30, stdin);
+	printf("Enter description: \n");
 	fgets(item->desc, 100, stdin);
-	//item->name = "Water";
-	//item->desc = "Liquid";
 	item->price = 100;
 	item->count = 10;
 }
