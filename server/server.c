@@ -1,5 +1,4 @@
 #include "server.h"
-
 #include <stdlib.h>
 
 // #include "parser.h"
@@ -36,4 +35,15 @@ int server_destroy(server_t * server)
 {
     free(server);
     return 0;
+}
+
+int net_init_server(servet_t * server)
+{
+	server->net->fd = server_create();
+	socket_bind(server->net);
+	/*
+	set non block
+    save fd LN (listen)
+    add fd_set in select
+	*/
 }

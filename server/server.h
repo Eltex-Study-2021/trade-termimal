@@ -1,10 +1,12 @@
+#include "libs/net"
+
 typedef struct
 {
     // list items
-    // sockets
     // fd stdin
     int need_stop;
     int listen_socket;
+	net_t net;
 } server_t;
 
 int server_create(server_t ** server);
