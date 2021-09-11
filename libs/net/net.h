@@ -31,8 +31,11 @@ typedef struct
 	socklen_t addrlen;
 }	net_t;
 
-int socket_create(net_t *);
+int socket_create();
 int socket_bind(net_t *);
 ssize_t socket_send(net_t *, item_t *);
 ssize_t socket_recv(net_t *, item_t *);
+int socket_connect(net_t *);
+int socket_listen(net_t *net);
+int socket_accept(net_t *net);
 void init_item(item_t *);
