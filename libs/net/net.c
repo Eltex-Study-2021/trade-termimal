@@ -25,11 +25,15 @@ int socket_bind(net_t *net)
 	addr.sin_port = htons(PORT);
 	addr.sin_addr.s_addr = inet_addr(ADDR);
 
-	if(-1 == bind(net->fd, (const struct sockaddr *)&addr, net->addrlen))
+	if(-1 == bind(net->fd,
+		         (const struct sockaddr *)&addr, 
+		         net->addrlen))
 	{
 		perror("bind");
 		exit(EXIT_FAILURE);
-	} else {
+	}
+	else
+	{
 		printf("Socket binded\n");
 	}
 
@@ -60,16 +64,16 @@ ssize_t socket_recv(net_t *net, item_t *item)
 		perror("recv");
 		exit(EXIT_FAILURE);
 	}
-    //item_t * i = (item_t *) buff;
-    //*item = *i;
+	//item_t * i = (item_t *) buff;
+	//*item = *i;
 	return numRead;
 }
 
 int socket_connect(net_t *net)
 {
-	if(-1 == connect(net->fd, 
-                (const struct sockaddr *) &net->addr, 
-                net->addrlen))
+	if(-1 == connect(net->fd,
+		            (const struct sockaddr *) &net->addr,
+		            net->addrlen))
 	{
 		perror("connect");
 		exit(EXIT_FAILURE);
@@ -79,25 +83,24 @@ int socket_connect(net_t *net)
 
 int socket_listen(net_t *net)
 {
-    int ready_listen = listen(net->fd, 4);
-    if (ready_listen == -1)
-    {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-
-    return 0;
+	int ready_listen = listen(net->fd, 4);
+	if(ready_listen == -1)
+	{
+		perror("listen");
+		exit(EXIT_FAILURE);
+	}
+	return 0;
 }
 
 int socket_accept(net_t *net)
-{   
-    int fd = accept(net->fd, (struct sockaddr *)&net->addr, &net->addrlen);
-    if(fd == -1)
-    {
-        perror("accept");
-        exit(EXIT_FAILURE);
-    }
-    return fd;
+{
+	int fd = accept(net->fd, (struct sockaddr *)&net->addr, &net->addrlen);
+	if(fd == -1)
+	{
+		perror("accept");
+		exit(EXIT_FAILURE);
+	}
+	return fd;
 }
 
 void init_item(item_t *item)
