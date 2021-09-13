@@ -4,45 +4,73 @@
     "items": [
         {
             "id":1,
-            "name":"test1",
+            "name":"Snikers",
             "desc":"desc1",
             "price":10,
             "count":100
         },
         {
             "id":2,
-            "name":"test2",
+            "name":"KitKat",
             "desc":"desc2",
             "price":20,
             "count":200
         },
         {   
             "id":3,
-            "name":"test3",
+            "name":"Milky Way",
             "desc":"desc3",
             "price":30,
             "count":300
         },
         {
             "id":4,
-            "name":"test4",
+            "name":"Mars",
             "desc":"desc4",
             "price":40,
             "count":400
         },
         {
             "id":5,
-            "name":"test5",
+            "name":"Water",
             "desc":"desc5",
             "price":50,
             "count":500
         },
         {
             "id":6,
-            "name":"test6",
+            "name":"Cookie",
             "desc":"desc6",
             "price":60,
             "count":600
+        },
+        {
+            "id":7,
+            "name":"Lemonade",
+            "desc":"desc7",
+            "price":70,
+            "count":700
+        },
+        {
+            "id":8,
+            "name":"Gum",
+            "desc":"desc8",
+            "price":80,
+            "count":800
+        },
+        {
+            "id":9,
+            "name":"Juice",
+            "desc":"desc9",
+            "price":90,
+            "count":900
+        },
+        {
+            "id":10,
+            "name":"Waffles",
+            "desc":"desc10",
+            "price":100,
+            "count":1000
         }
     ]
 }
