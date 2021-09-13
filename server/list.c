@@ -6,7 +6,7 @@
 
 #include "list.h"
 
-node_t * init_node(void * data)
+node_t * create_node(void * data)
 {
 	node_t * p = (node_t*)malloc(sizeof(node_t));
 	if(!p)
@@ -19,39 +19,33 @@ node_t * init_node(void * data)
 	return p;
 }
 
-node_t * add_first(node_t * head, void * data)
+int insert_node_first(node_t ** head, node_t * node)
 {
-	node_t * p = init_node(data);
-        if(!p) return NULL;
-	p->data = data;
-	p->next = head;
-	return p;
+	node->next = *head;
+	*head = node;
 }
 
-void add_last(node_t * head, void * data)
+int insert_node_last(node_t ** head, node_t * node)
 {
-	node_t * tmp = init_node(data);
-	tmp->data = data;
-	tmp->next = NULL;
-	node_t * p = head;
-	while(p->next)
-	{
-		p = p->next;
-	}
-	p->next = tmp;
+	if(!*head)
+		return insert_node_first(head, node);
+	node_t * last = *head;
+
+	for (; last->next; last = last->next);
+	last->next = node;
 }
 
-
-void print_list(node_t * head)
+int print_list(node_t * head)
 {
-	node_t * cur;
-	for (cur = head; cur; cur = cur->next)
+	node_t * cur = head;
+	while(cur != NULL)
 	{
-		printf("%s ", cur->data);
+		printf("%s\n", cur->data);
+		cur = cur->next;
 	}
 }
 
-void clear_list(node_t * head) 
+int clear_list(node_t * head)
 {
 	while (head)
 	{
@@ -61,10 +55,10 @@ void clear_list(node_t * head)
 	}
 }
 
-void search_list(node_t * head, void * data)
+node_t * search_list(node_t * head, void * data)
 {
 	node_t * tmp = head;
-	while(tmp->next)
+	while(tmp != NULL)
 	{
 		if(strcmp(tmp->data, data) == 0)
 		{
@@ -75,26 +69,27 @@ void search_list(node_t * head, void * data)
 	}
 }
 
-int del_element(node_t * head, void * data)
+int remove_node(node_t ** head, node_t * node)
 {
-	node_t * tmp = head;
-	node_t * p = NULL;
-
-	if(!head) return NULL;
-
-	while(tmp && tmp->data != data)
+	if(strcmp(node->data, (*head)->data) == 0)
 	{
-		p = tmp;
-		tmp = tmp->next;
+		node_t * tmp = *head;
+		*head = (*head)->next;
+		free(tmp);
+		return 0;
 	}
-	if(tmp == head)
+	node_t * cur = (*head)->next;
+	node_t * prev = *head;
+	while(cur != NULL && prev != NULL)
 	{
-		free(head);
-		return tmp->next;
+		if(strcmp(node->data, cur->data) == 0)
+		{
+			node_t * tmp = cur;
+			prev->next = cur->next;
+			free(tmp);
+			return 0;
+		}
+		prev = cur;
+		cur = cur->next;
 	}
-	if(!tmp) return head;
-
-	p->next = tmp->next;
-	free(tmp);
-	return head;
 }

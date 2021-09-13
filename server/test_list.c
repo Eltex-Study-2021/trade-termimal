@@ -1,28 +1,35 @@
 #include <stdio.h>
 #include "list.h"
 
-int main()
+int main(void)
 {
 	node_t * HEAD = NULL;
-	HEAD = add_first(HEAD, "3");
-	HEAD = add_first(HEAD, "2");
-	HEAD = add_first(HEAD, "1");
+		node_t * node;
+		
+		node = create_node("6");
+		insert_node_first(&HEAD, node);
+		node = create_node("5");
+		insert_node_first(&HEAD, node);
+		node = create_node("4");
+		insert_node_first(&HEAD, node);
+		node = create_node("3");
+		insert_node_first(&HEAD, node);
+		node = create_node("2");
+		insert_node_first(&HEAD, node);
+		node = create_node("1");
+		insert_node_first(&HEAD, node);
+		print_list(HEAD);
+		puts("\n");
 
-	print_list(HEAD);
-	puts("\n");
-	add_last(HEAD, "4");
-	add_last(HEAD, "5");
-	
-	print_list(HEAD);
-	puts("\n");
+		search_list(HEAD, "1");
+		puts("\n");
 
-	search_list(HEAD, "2");
-	del_element(HEAD, "3");
+		node = create_node("2");
+		remove_node(&HEAD, node);
+		print_list(HEAD);
+		puts("\n");
 
-	puts("\n");
-	print_list(HEAD);
-	
-	clear_list(HEAD);
+		clear_list(HEAD);
 
-	return 0;
+		return 0;
 }
