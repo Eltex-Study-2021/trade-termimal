@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include <stdint.h>
 #include <string.h>
-//#include "libs/cJSON/cJSON.h"
-
-#include "libs/cJSON/cJSON.h"
 #include "parser.h"
-#include "server/list.h"
 
 cJSON *parse_file(const char *filename)
 {
@@ -28,8 +23,12 @@ cJSON *parse_file(const char *filename)
                 fclose(file);
                 return NULL;
         }
-        fread(buffer, 1, buffer_len, file);
-
+        int rc = fread(buffer, 1, buffer_len, file);
+        if (rc != buffer_len)
+        {
+                printf("error buffer");
+                return NULL;
+        }
         buffer[buffer_len] = '\0';
         fclose(file);
 
@@ -46,7 +45,7 @@ cJSON *parse_file(const char *filename)
 
 int item_parse(item_t * item, cJSON * cjson_items_item)
 {           
-        item->id =  cJSON_GetObjectItem(cjson_items_item, "id") -> valueint;
+        item->id = cJSON_GetObjectItem(cjson_items_item, "id")->valueint;
         printf("id:%d\n", item->id);
 
         strncpy(item->name, cJSON_GetObjectItem(cjson_items_item, "name")->valuestring, 32);
@@ -55,11 +54,11 @@ int item_parse(item_t * item, cJSON * cjson_items_item)
         strncpy(item->desc, cJSON_GetObjectItem(cjson_items_item, "desc")->valuestring, 128);
         printf("desc:%s\n", item->desc);
         
-        item->price = cJSON_GetObjectItem(cjson_items_item, "price") -> valueint;
+        item->price = cJSON_GetObjectItem(cjson_items_item, "price")->valueint;
         printf("price:%d\n", item->price);
 
-        item->price = cJSON_GetObjectItem(cjson_items_item, "count") -> valueint;
-        printf("count:%d\n", item->price);
+        item->count = cJSON_GetObjectItem(cjson_items_item, "count")->valueint;
+        printf("count:%d\n", item->count);
         printf("\n");
         return 0;
 }
@@ -77,19 +76,20 @@ int items_parse(server_t * server, cJSON * cjson_parse)
                 if (!item)
                 {
                         printf("Malloc error");
-                        return 1;
+                        return -1;
                 }
+
                 if (item_parse(item, cjson_items_item))
                 {
                         printf("item parse fail");
-                        return 2;
+                        return -1;
                 }
-                /*node_t * n = create_node(item);
+                node_t * n = create_node(item);
                 if (!insert_node_first(&server->items, n)) 
                 {
                         printf("node fail");
-                        return 3;
-                }*/
+                        return -1;
+                }
                 free(item);
         }
         return 0;       
@@ -104,24 +104,29 @@ int config_parse(server_t * server)
                 return -1;
         }
 
-        if(cJSON_GetObjectItem(cjson_parse, "address")->valuestring != NULL)
+        cJSON * address_json = cJSON_GetObjectItem(cjson_parse, "address");
+        if (!address_json)
         {
-                printf("address:%s\n", cJSON_GetObjectItem(cjson_parse, "address")->valuestring);
-        } else 
-        {
-                printf("object not geted");      
+                printf("adress not found");
+                return -1;
         }
-       
-        if(cJSON_GetObjectItem(cjson_parse, "port")->valueint != 0)
+        server->add = address_json->valuestring;
+        printf("address:%s\n", server->add);
+        
+        cJSON * port_json = cJSON_GetObjectItem(cjson_parse, "port");
+        if (!port_json)
         {
-                printf("port:%d\n", cJSON_GetObjectItem(cjson_parse, "port")->valueint);
+                printf("port not found");
+                return -1;
         }
-         
+        server->port = port_json->valueint;
+        printf("port:%d\n", server->port);
+        
         if (items_parse(server, cjson_parse) != 0)
         {
                 printf("items parse fail");
                 cJSON_Delete(cjson_parse);
-                return 3;
+                return -1;
         }
         cJSON_Delete(cjson_parse);
         
