@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
+#include "server/list.h"
 
 cJSON *parse_file(const char *filename)
 {
@@ -90,6 +91,7 @@ int items_parse(server_t * server, cJSON * cjson_parse)
                         printf("node fail");
                         return -1;
                 }
+                //print_list(server->items);
                 free(item);
         }
         return 0;       
