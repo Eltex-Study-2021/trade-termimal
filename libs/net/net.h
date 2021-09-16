@@ -14,6 +14,7 @@
 
 #define PORT	32000
 #define ADDR	"127.0.0.1"
+#define LISTEN_BACKLOG 10
 
 typedef struct
 {
@@ -38,4 +39,6 @@ int socket_listen(net_t *net);
 int socket_accept(net_t *net);
 ssize_t socket_send(net_t *, item_t *);
 ssize_t socket_recv(net_t *, item_t *);
+void net_print_item(item_t *);
+void init_client_sock(net_t *);
 void init_item(item_t *);
