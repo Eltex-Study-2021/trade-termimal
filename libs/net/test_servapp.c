@@ -14,7 +14,12 @@ main(int argc, char **argv) {
 	socket_accept(&main);
 
 	socket_recv(&main, &item);
-	//socket_send(&main, &item)
+	printf("SERV RECV\n");
+	net_print_item(&item);
+
+	init_item(&item);
+	socket_send(&main, &item);
+	printf("SERV SENT\n");
 	net_print_item(&item);
 
 	return 0;

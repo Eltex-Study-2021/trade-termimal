@@ -12,8 +12,11 @@ main(int argc, char **argv) {
 	//send filed item to server
 	init_item(&item);
 	socket_send(&main, &item);
+	printf("CLIENT SENT:\n");
 	net_print_item(&item);
-	//socket_recv(&main, &item);
-	
+	socket_recv(&main, &item);
+	printf("CLIENT RECV\n");
+	net_print_item(&item);
+
 	return 0;
 }

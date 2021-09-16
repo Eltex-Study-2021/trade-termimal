@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -16,13 +18,13 @@
 #define ADDR	"127.0.0.1"
 #define LISTEN_BACKLOG 10
 
-typedef struct
+typedef struct 
 {
-    uint16_t id;
-    char * name;
-    char * desc;
-    uint32_t price;
-    uint32_t count;
+	uint16_t id;
+	char name[32];
+	char desc[128];
+	uint32_t price;
+	uint32_t count;
 } item_t;
 
 typedef struct
@@ -30,7 +32,7 @@ typedef struct
 	int fd;
 	struct sockaddr_in addr;
 	socklen_t addrlen;
-}	net_t;
+} net_t;
 
 int socket_create();
 int socket_bind(net_t *);

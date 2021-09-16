@@ -20,12 +20,12 @@ int socket_bind(net_t *net)
 	net->addrlen = sizeof(struct sockaddr_in);
 
 	// Forcefully attaching socket to the port 8080
-    if (setsockopt(net->fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                                                  &opt, sizeof(opt)))
-    {
-        perror("setsockopt");
-        return -1;
-    }
+	if (setsockopt(net->fd, SOL_SOCKET, 
+		           SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
+	{
+		perror("setsockopt");
+		return -1;
+	}
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(PORT);
 	addr.sin_addr.s_addr = inet_addr(ADDR);
@@ -66,8 +66,7 @@ ssize_t socket_recv(net_t *net, item_t *item) //char **, int *
 		return -1;
 	}
 	item_t *tmp = (item_t *) buff;
-	//*item = *tmp;
-	memcpy(item, tmp, sizeof(*item));
+	*item = *tmp;
 	free(buff);
 	return numRead; //return 0;
 }
@@ -109,24 +108,22 @@ int socket_accept(net_t *net)
 void init_item(item_t *item)
 {
 	item->id = 1;
-	//item->name = calloc(1, sizeof(*item));
-	//fgets(item->name, 30 ,stdin);
-	//item->desc = calloc(1, sizeof(*item));
-	//fgets(item->desc, 100, stdin);
-	item->name = "Milk";
-	item->desc = "Liquid from nipples of cow";
+	printf("Enter a name:");
+	fgets(item->name, 32, stdin);
+	printf("Enter a description:");
+	fgets(item->desc, 128, stdin);
 	item->price = 100;
 	item->count = 10;
 }
 
 void net_print_item(item_t *item)
 {
-	printf("id:%2d\n", item->id);
-	printf("name:%2s\n", item->name);
-	printf("description:%2s\n", item->desc);
-	printf("price:%2u\n", item->price);
-	printf("count:%2u\n", item->count);
-	
+	printf("id: %d\n", item->id);
+	printf("name: %s\n", item->name);
+	printf("description: %s\n", item->desc);
+	printf("price: %u\n", item->price);
+	printf("count: %u\n", item->count);
+	printf("\n");
 }
 
 void init_client_sock(net_t * net)
