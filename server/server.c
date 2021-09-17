@@ -18,6 +18,7 @@ int server_init(server_t * server)
     // config_parse(server)
     // init_net(server)
     // init_cli(server)
+    return 0;
 }
 
 int server_loop(server_t * server)

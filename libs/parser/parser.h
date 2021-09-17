@@ -1,8 +1,9 @@
 #pragma once
 
-#include "libs/cJSON/cJSON.h"
+#include "../cJSON/cJSON.h"
 #include <stdint.h>
-#include "server/list.h"
+#include "../../server/server.h"
+#include "../list/list.h"
 
 typedef struct 
 {
@@ -13,7 +14,7 @@ typedef struct
         uint32_t count;
 } item_t;
 
-typedef struct
+/*typedef struct
 {
         char * add;
         uint16_t port;
@@ -21,6 +22,6 @@ typedef struct
         // ...
         // smth
         //net_t net;
-} server_t;
+} server_t;*/
 
 int config_parse(server_t * server);

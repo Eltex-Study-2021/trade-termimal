@@ -1,10 +1,17 @@
+#pragma once 
+
+#include <stdint.h>
+
 typedef struct
 {
-    // list items
-    // sockets
-    // fd stdin
-    int need_stop;
-    int listen_socket;
+        char * add;
+        uint16_t port;
+        struct node * items;
+        // list items
+        // sockets
+        // fd stdin
+        int need_stop;
+        int listen_socket;
 } server_t;
 
 int server_create(server_t ** server);
