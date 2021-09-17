@@ -3,16 +3,15 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#include <netinet/in.h>
+#include <sys/time.h> //for select()
 #include <netinet/tcp.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <errno.h>
 #include <string.h>
 #include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/udp.h>
-#include <netinet/ip.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #define PORT	32000
 #define ADDR	"127.0.0.1"
@@ -41,6 +40,7 @@ int socket_listen(net_t *net);
 int socket_accept(net_t *net);
 ssize_t socket_send(net_t *, item_t *);
 ssize_t socket_recv(net_t *, item_t *);
+//int socket_recv(net_t *, char **, int *);
 void net_print_item(item_t *);
 void init_client_sock(net_t *);
 void init_item(item_t *);

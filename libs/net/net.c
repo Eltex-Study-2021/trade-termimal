@@ -2,13 +2,18 @@
 
 int socket_create(net_t *net)
 {
-	//net->cfd = 0; //server accept()
 	net->fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (net->fd == -1)
 	{
 		perror("socket");
 		return -1;
 	}
+	/*if (-1 == fcntl(net->fd, F_SETFL, O_NONBLOCK))
+	{
+		perror("fcntl");
+		return -1;
+	}*/
+
 	return 0;
 }
 
@@ -19,7 +24,7 @@ int socket_bind(net_t *net)
 	memset(&addr, 0, sizeof(addr));
 	net->addrlen = sizeof(struct sockaddr_in);
 
-	// Forcefully attaching socket to the port 8080
+	// Forcefully attaching socket to the port
 	if (setsockopt(net->fd, SOL_SOCKET, 
 		           SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
 	{
@@ -55,12 +60,12 @@ ssize_t socket_send(net_t *net, item_t *item)
 		return numRead;
 }
 
-ssize_t socket_recv(net_t *net, item_t *item) //char **, int *
+ssize_t socket_recv(net_t * net, item_t * item) //char **, int *
 {
 	ssize_t numRead = 0;
-	char *buff = calloc(1, sizeof(*item));
+	char * buff = calloc(1, sizeof(*item));
 	numRead = recv(net->fd, buff, sizeof(*item), 0);
-	if (numRead == -1)
+	if (numRead != sizeof(*item))
 	{
 		perror("recv");
 		return -1;
@@ -71,7 +76,27 @@ ssize_t socket_recv(net_t *net, item_t *item) //char **, int *
 	return numRead; //return 0;
 }
 
-int socket_connect(net_t *net)
+/*
+int socket_recv(net_t * net, char ** buff_out, int * bufflen)
+{
+	ssize_t numRead = 0;
+	//alloc mem to buffer
+	*buff_out = calloc(1, sizeof(char));
+	bufflen = calloc(1, sizeof(int));
+	//*buff_out = malloc(sizeof(char) * 1024);
+	//bufflen = malloc(sizeof(int) * 256);
+
+	numRead = recv(net->fd, *buff_out, (size_t)*bufflen, 0);
+	if (numRead == -1)
+	{
+		perror("recv");
+		return -1;
+	}
+
+	return 0;
+}
+*/
+int socket_connect(net_t * net)
 {
 	if (-1 == connect(net->fd,
 		            (const struct sockaddr *) &net->addr,
@@ -108,9 +133,9 @@ int socket_accept(net_t *net)
 void init_item(item_t *item)
 {
 	item->id = 1;
-	printf("Enter a name:");
+	printf("Enter a name:\n");
 	fgets(item->name, 32, stdin);
-	printf("Enter a description:");
+	printf("Enter a description:\n");
 	fgets(item->desc, 128, stdin);
 	item->price = 100;
 	item->count = 10;
