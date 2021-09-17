@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../cJSON/cJSON.h"
+#include "cJSON/cJSON.h"
 #include <stdint.h>
-#include "../../server/server.h"
-#include "../list/list.h"
+#include "server/server.h"
+#include "list/list.h"
 
 typedef struct 
 {

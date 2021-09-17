@@ -5,10 +5,10 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "../../server/server.h"
+#include "server/server.h"
 #include "cli.h"
-#include "../list/list.h"
-#include "../parser/parser.h"
+#include "list/list.h"
+#include "parser/parser.h"
 
 item_t * item_search_id(node_t * head, int id)
 {
