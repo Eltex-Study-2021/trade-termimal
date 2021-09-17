@@ -1,6 +1,7 @@
 #pragma once
 
 #include "server.h"
+#include "parser.h"
 
 /*The width of the cells is the 
  * ID, NAME, DESCRIPTION, QUANTITY and PRICE*/
@@ -10,7 +11,7 @@
 #define CLI_W_QUA   10
 #define CLI_W_PRICE 9
 
-item_t * item_search_id(item_t * head, int id);
+item_t * item_search_id(node_t * head, int id);
 int loop_cli(server_t * server);
 int init_cli(server_t * server);
 

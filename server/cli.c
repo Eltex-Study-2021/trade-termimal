@@ -3,15 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "server.h"
 #include "cli.h"
 #include "list.h"
+#include "parser.h"
 
-item_t * item_search_id(item_t * head, int id)
+item_t * item_search_id(node_t * head, int id)
 {
-	for(item_t i = head; i; i = i->next)
+	for(node_t * n = head; n; n = n->next)
+        {
+                item_t * i = n->data;
 		if(i->id == id) return i;
+        }
 	return NULL;
 }
 
@@ -23,12 +28,15 @@ int init_cli(server_t * server)
 
 int show_handler_cli(server_t * server)
 {
-	puts("___________________________________________________________________");
+	puts("____________________________________________________________________");
 	puts("|    |                      |                 |          |         |");
 	puts("| ID |         Name         |   Description   | Quantity |  Price  |");
 	puts("|____|______________________|_________________|__________|_________|");
-	for(item_t * i = server->items; i; i = i->next)
+	
+
+        for(node_t * n = server->items; n; n = n->next)
 	{
+            item_t * i = n->data;
 	    printf("|%*d|%*s|%*s|%*d|%*d|\n", CLI_W_ID, i->id, CLI_W_NAME, i->name, CLI_W_DESC, i->desc, CLI_W_QUA, i->count, CLI_W_PRICE, i->price);
 	    puts("|____|______________________|_________________|__________|_________|");
 	}
@@ -71,7 +79,7 @@ int add_handler_cli(server_t * server)
 		puts("\nEnter product price: ");
 		scanf("%d", &price);
 		puts("\nEnter product name: ");
-		scanf("%s", &name);
+		scanf("%s", name);
 		puts("\nEnter product description: ");
 		gets(desc);
 	
@@ -129,7 +137,7 @@ int cli_handler(server_t * server)
 	tv.tv_sec = 10; 
 	tv.tv_usec = 0;
 
-	select(FD_SETSIZE, &server->inputs, NULL,NULL, &tv)
+	select(FD_SETSIZE, &server->inputs, NULL,NULL, &tv);
 	{
 		int nread;
 		char buffer[16];
