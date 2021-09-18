@@ -67,7 +67,7 @@ int net_init_server(server_t * server)
         server->listen_socket = server->net.fd;
         node = create_node(&server->listen_socket);
         insert_node_first(&HEAD, node);
-        print_list(HEAD, 'i');
+        //print_list(HEAD, 'i');
 
         FD_ZERO(&server->inputs);/*init fd_set*/
         FD_SET(server->listen_socket, &server->inputs);

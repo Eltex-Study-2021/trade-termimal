@@ -112,8 +112,8 @@ int config_parse(server_t * server)
                 printf("adress not found");
                 return -1;
         }
-        server->add = address_json->valuestring;
-        printf("address:%s\n", server->add);
+        server->addr = address_json->valuestring;
+        printf("address:%s\n", server->addr);
         
         cJSON * port_json = cJSON_GetObjectItem(cjson_parse, "port");
         if (!port_json)

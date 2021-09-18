@@ -1,12 +1,14 @@
 #pragma once
-#include "../libs/net/net.h"
-#include "../libs/list/list.h"
+#include "net.h"
+#include "list.h"
 #include <sys/time.h>
 #include <sys/select.h>
 #include <sys/ioctl.h>
 
 typedef struct
 {
+        char * addr;
+        uint16_t port;
         struct node * items;
         // fd stdin
         fd_set inputs;
