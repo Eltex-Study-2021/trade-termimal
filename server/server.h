@@ -1,12 +1,14 @@
 #pragma once 
 
 #include <stdint.h>
+#include <sys/select.h>
 
 typedef struct
 {
         char * add;
         uint16_t port;
         struct node * items;
+        fd_set inputs;
         // list items
         // sockets
         // fd stdin
