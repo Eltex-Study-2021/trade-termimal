@@ -84,7 +84,7 @@ int net_init_server(server_t * server)
 	{
 		printf("Accept success\n");
 		socket_accept(&server->net);
-		socket_recv(&server->net, &server)
+		socket_recv(&server->net, &server);
 	}
 	/*
 		save fd (listen)
