@@ -35,12 +35,17 @@ int insert_node_last(node_t ** head, node_t * node)
 	last->next = node;
 }
 
-int print_list(node_t * head)
+int print_list(node_t * head, char type)
 {
 	node_t * cur = head;
 	while(cur != NULL)
 	{
-		printf("%s\n", cur->data);
+		switch(type)
+		{
+			case 'i': printf("%u\n", *(int*)cur->data);
+			case 's': printf("%s\n", (char *)cur->data);
+		}
+		//printf("%s\n", (char *)cur->data);
 		cur = cur->next;
 	}
 }
@@ -62,7 +67,7 @@ node_t * search_list(node_t * head, void * data)
 	{
 		if(strcmp(tmp->data, data) == 0)
 		{
-			printf("Found element: %s\n", tmp->data);
+			printf("Found element: %s\n", (char *)tmp->data);
 			break;
 		}
 		tmp = tmp->next;
