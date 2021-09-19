@@ -1,0 +1,7 @@
+project(list)
+include_directories(${PROJECT_SOURCE_DIR}/)
+include_directories(${PROJECT_SOURCE_DIR}/../)
+include_directories(${PROJECT_SOURCE_DIR}/../../)
+set(SOURCES list.c)
+add_library(list STATIC ${SOURCES} ${HEADERS})
+install(FILES liblist.a DESTINATION ${PROJECT_SOURCE_DIR}/../build)

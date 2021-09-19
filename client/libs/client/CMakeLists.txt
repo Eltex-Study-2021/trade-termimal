@@ -1,0 +1,10 @@
+project(client)
+add_definitions(-Wall)
+include_directories(${PROJECT_SOURCE_DIR}/)
+include_directories(${PROJECT_SOURCE_DIR}/../)
+include_directories(${PROJECT_SOURCE_DIR}/../../)
+set(SOURCES client.c)
+
+target_link_libraries(cJSON)
+add_library(client STATIC ${SOURCES} ${HEADERS})
+install(FILES libclient.a DESTINATION ${PROJECT_SOURCE_DIR}/../build)
