@@ -1,0 +1,11 @@
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/CMakeFiles
+**/Makefile
+**/build
+**/install_manifest.txt
+client/client
+server/server
+**/*.a
+
+
