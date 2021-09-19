@@ -1,14 +1,11 @@
 #include "client.h"
 #include <stdlib.h>
 #include <sys/select.h>
-<<<<<<< HEAD
-=======
 #include <unistd.h>
 
 // #include "parser.h"
 // #include "cli.h"
 // #include "net.h"
->>>>>>> 6e36da8fb584d58eaa743e5c622a9fd4ea6c4932
 
 int client_create(client_t ** client)
 {
@@ -61,11 +58,8 @@ int client_loop(client_t * client)
                         int socket = *(int *)n->data;
                         if(FD_ISSET(socket, &client->inputs))
                         {
-<<<<<<< HEAD
                                 //socket_recv(&client->net, &client->items);
-=======
                                 socket_recv(&client->net, &client->items);
->>>>>>> 6e36da8fb584d58eaa743e5c622a9fd4ea6c4932
                                 printf("SOCKET RECIVE\n");
                         }
                 }
@@ -89,11 +83,8 @@ int net_init_client(client_t * client)
 {
         socket_create(&client->net);
         socket_bind(&client->net);
-<<<<<<< HEAD
         //socket_set_non_block(&client->net);
-=======
         socket_set_non_block(&client->net);
->>>>>>> 6e36da8fb584d58eaa743e5c622a9fd4ea6c4932
 
         return 0;
 }
