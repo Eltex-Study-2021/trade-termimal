@@ -1,6 +1,6 @@
 #pragma once
-#include "net.h"
-#include "list.h"
+#include <net/net.h>
+#include <list/list.h>
 #include <sys/time.h>
 #include <sys/select.h>
 #include <sys/ioctl.h>

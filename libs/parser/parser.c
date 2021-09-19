@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
-#include "list/list.h"
+#include <list/list.h>
+#include <cJSON/cJSON.h>
 
 cJSON *parse_file(const char *filename)
 {
