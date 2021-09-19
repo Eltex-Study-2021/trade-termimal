@@ -1,12 +1,4 @@
-#include <sys/select.h>
-#include <sys/ioctl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "server.h"
 #include "cli.h"
-#include "list.h"
 
 item_t * item_search_id(item_t * head, int id)
 {
@@ -29,8 +21,8 @@ int show_handler_cli(server_t * server)
 	puts("|____|______________________|_________________|__________|_________|");
 	for(item_t * i = server->items; i; i = i->next)
 	{
-	    printf("|%*d|%*s|%*s|%*d|%*d|\n", CLI_W_ID, i->id, CLI_W_NAME, i->name, CLI_W_DESC, i->desc, CLI_W_QUA, i->count, CLI_W_PRICE, i->price);
-	    puts("|____|______________________|_________________|__________|_________|");
+		printf("|%*d|%*s|%*s|%*d|%*d|\n", CLI_W_ID, i->id, CLI_W_NAME, i->name, CLI_W_DESC, i->desc, CLI_W_QUA, i->count, CLI_W_PRICE, i->price);
+		puts("|____|______________________|_________________|__________|_________|");
 	}
 	return 0;
 }
@@ -129,7 +121,7 @@ int cli_handler(server_t * server)
 	tv.tv_sec = 10; 
 	tv.tv_usec = 0;
 
-	select(FD_SETSIZE, &server->inputs, NULL,NULL, &tv)
+	select(FD_SETSIZE, &server->inputs, NULL,NULL, &tv);
 	{
 		int nread;
 		char buffer[16];
@@ -144,6 +136,7 @@ int cli_handler(server_t * server)
 				return add_handler_cli(server);
 		}
 	}
+    return 0;
 }
 
 int loop_cli(server_t * server)
@@ -156,4 +149,5 @@ int loop_cli(server_t * server)
 
 	puts("1. Assortment\n2. Add\n");
 	cli_handler(server);
+    return 0;
 }

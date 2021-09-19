@@ -18,7 +18,7 @@ int main(void)
 		insert_node_first(&HEAD, node);
 		node = create_node("1");
 		insert_node_first(&HEAD, node);
-		print_list(HEAD);
+		print_list(HEAD, 's');
 		puts("\n");
 
 		search_list(HEAD, "1");
@@ -26,7 +26,7 @@ int main(void)
 
 		node = create_node("2");
 		remove_node(&HEAD, node);
-		print_list(HEAD);
+		print_list(HEAD, 's');
 		puts("\n");
 
 		clear_list(HEAD);

@@ -1,9 +1,15 @@
 #pragma once
-
-#include "server.h"
+#include <sys/select.h>
+#include <sys/ioctl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../list/list.h"
+#include "../parser/parser.h"
+//#include "../net/net.h"
 
 /*The width of the cells is the 
- * ID, NAME, DESCRIPTION, QUANTITY and PRICE*/
+* ID, NAME, DESCRIPTION, QUANTITY and PRICE*/
 #define CLI_W_ID    4
 #define CLI_W_NAME  22
 #define CLI_W_DESC  17

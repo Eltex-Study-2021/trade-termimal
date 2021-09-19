@@ -1,13 +1,6 @@
 #include "server.h"
 #include <stdlib.h>
 
-// #include "parser.h"
-// #include "cli.h"
-// #include "net.h"
-
-node_t * node;
-node_t * HEAD = NULL;
-
 int server_create(server_t ** server)
 {
 	*server = calloc(1, sizeof(server_t));
@@ -24,28 +17,67 @@ int server_init(server_t * server)
 
 int server_loop(server_t * server)
 {
-	struct timeval tv;
+	/*struct timeval tv;
 	tv.tv_sec = 10; 
-	tv.tv_usec = 0;
-	int retval = 0;
+	tv.tv_usec = 0;*/
+
+	socket_listen(&server->net);/*save fd (listen) */
+	server->listen_socket = server->net.fd;
+
+	server->node = create_node(&server->listen_socket);
+	node_t * HEAD = NULL;
+	insert_node_first(&HEAD, server->node);
+	print_list(HEAD, 'i');
+
+	int ready = 0;
+	server->need_stop = 1;
 
 	while (server->need_stop)
 	{
-		//select
-		retval = select(FD_SETSIZE, &server->inputs, NULL, NULL, &tv);
-		if (retval == -1)
+		FD_ZERO(&server->inputs);/*init fd_set*/
+		FD_SET(*(int *)server->node->data, &server->inputs);
+		FD_SET(STDIN_FILENO, &server->inputs);
+
+		for (node_t * n = HEAD; n; n = n->next)
 		{
-			perror("select");
-		}
-		else if (retval)
-		{
-			socket_accept(&server->net);
-			if(FD_ISSET(0, &server->inputs))
+			int socket = *(int *)n->data;
+			FD_SET(socket, &server->inputs);
+			if (socket > server->high)
 			{
-				printf("ALL GOODD\n");
+				server->high = socket;
 			}
 		}
-		//do
+		//select
+		ready = select(server->high + 1, &server->inputs, NULL, NULL, NULL);
+		{
+			if (ready == -1)
+			{
+				perror("select");
+				return -1;
+			}
+
+			if (FD_ISSET(*(int *)server->node->data, &server->inputs))
+			{
+				socket_accept(&server->net);
+				printf("Accept success\n");
+			}
+
+			for (node_t * n = HEAD; n; n = n->next)
+			{
+				int socket = *(int *)n->data;
+				if (FD_ISSET(socket, &server->inputs))
+				{
+					//socket_recv(&server->net, &server->item);
+					printf("SOCKET RECIVE\n");
+				}
+			}
+
+			if(FD_ISSET(STDIN_FILENO, &server->inputs))
+			{
+				printf("CLI HANDLER\n");
+				//cli_handler(server);
+			}
+		}
 	}
 
 	return 0;
@@ -58,38 +90,10 @@ int server_destroy(server_t * server)
 }
 
 int net_init_server(server_t * server)
-{	
-	int ready = 0;
+{
 	socket_create(&server->net);
 	socket_bind(&server->net);
 	socket_set_non_block(&server->net);
-	socket_listen(&server->net);/*save fd (listen) */
-
-	server->listen_socket = server->net.fd;
-	node = create_node(&server->listen_socket);
-	insert_node_first(&HEAD, node);
-	print_list(HEAD, 'i');
-
-	FD_ZERO(&server->inputs);/*init fd_set*/
-	FD_SET(server->listen_socket, &server->inputs);
-	ready = select(FD_SETSIZE, &server->inputs, NULL, NULL, NULL);
-
-	if (ready == -1)
-	{
-		perror("select");
-		return -1;
-	}
-
-	if (FD_ISSET(server->listen_socket, &server->inputs))
-	{
-		printf("Accept success\n");
-		socket_accept(&server->net);
-		socket_recv(&server->net, &server)
-	}
-	/*
-		save fd (listen)
-		add fd_set in select
-	*/
 
 	return 0;
 }

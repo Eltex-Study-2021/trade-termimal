@@ -85,14 +85,14 @@ int items_parse(server_t * server, cJSON * cjson_parse)
                         return -1;
                 }
                 node_t * n = create_node(item);
-                if (!insert_node_first(&server->items, n)) 
+                if (!insert_node_first(&server->node, n)) 
                 {
                         printf("node fail");
                         return -1;
                 }
                 free(item);
         }
-        return 0;       
+        return 0;
 }
 
 int config_parse(server_t * server)
