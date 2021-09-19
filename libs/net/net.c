@@ -8,11 +8,6 @@ int socket_create(net_t *net)
 		perror("socket");
 		return -1;
 	}
-	/*if (-1 == fcntl(net->fd, F_SETFL, O_NONBLOCK))
-	{
-		perror("fcntl");
-		return -1;
-	}*/
 
 	return 0;
 }
@@ -29,6 +24,7 @@ int socket_bind(net_t *net)
 		           SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
 	{
 		perror("setsockopt");
+		close(net->fd);
 		return -1;
 	}
 	addr.sin_family = AF_INET;
@@ -96,6 +92,7 @@ int socket_recv(net_t * net, char ** buff_out, int * bufflen)
 	return 0;
 }
 */
+
 int socket_connect(net_t * net)
 {
 	if (-1 == connect(net->fd,
@@ -127,6 +124,17 @@ int socket_accept(net_t *net)
 		perror("accept");
 		return -1;
 	}
+	return 0;
+}
+
+int socket_set_non_block(net_t *net)
+{
+	if (-1 == fcntl(net->fd, F_SETFL, O_NONBLOCK))
+	{
+		perror("fcntl");
+		return -1;
+	}
+
 	return 0;
 }
 

@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	node_t * HEAD = NULL;
+		node_t * HEAD = NULL;
 		node_t * node;
 		
 		node = create_node("6");

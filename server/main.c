@@ -9,8 +9,8 @@ int main()
 
     server_create(&server);
     server_init(server);
-    server_loop(server);
-    server_destroy(server);
+    //server_loop(server);
+    //server_destroy(server);
 
     return 0;
 }
