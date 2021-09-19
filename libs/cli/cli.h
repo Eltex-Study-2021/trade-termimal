@@ -1,7 +1,6 @@
 #pragma once
 
-#include "server.h"
-#include "parser.h"
+#include <server/server.h>
 
 /*The width of the cells is the 
  * ID, NAME, DESCRIPTION, QUANTITY and PRICE*/

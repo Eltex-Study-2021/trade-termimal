@@ -1,10 +1,10 @@
 #pragma once
 
 #include <stdio.h>
-#include <sys/socket.h>
-#include <sys/types.h>
 #include <sys/time.h> //for select()
 #include <netinet/tcp.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <errno.h>
@@ -19,11 +19,11 @@
 
 typedef struct 
 {
-	uint16_t id;
-	char name[32];
-	char desc[128];
-	uint32_t price;
-	uint32_t count;
+        uint16_t id;
+        char name[32];
+        char desc[128];
+        uint32_t price;
+        uint32_t count;
 } item_t;
 
 typedef struct

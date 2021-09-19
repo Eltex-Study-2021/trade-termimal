@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
+#include <list/list.h>
+#include <cJSON/cJSON.h>
 
 cJSON *parse_file(const char *filename)
 {
@@ -90,6 +92,7 @@ int items_parse(server_t * server, cJSON * cjson_parse)
                         printf("node fail");
                         return -1;
                 }
+                //print_list(server->items);
                 free(item);
         }
         return 0;       
@@ -110,8 +113,8 @@ int config_parse(server_t * server)
                 printf("adress not found");
                 return -1;
         }
-        server->add = address_json->valuestring;
-        printf("address:%s\n", server->add);
+        server->addr = address_json->valuestring;
+        printf("address:%s\n", server->addr);
         
         cJSON * port_json = cJSON_GetObjectItem(cjson_parse, "port");
         if (!port_json)

@@ -7,43 +7,44 @@
 
 int server_create(server_t ** server)
 {
-    *server = calloc(1, sizeof(server_t));
+        *server = calloc(1, sizeof(server_t));
 
-    return 0;
+        return 0;
 }
 
 int server_init(server_t * server)
 {
-    // config_parse(server)
-    // init_net(server)
-    // init_cli(server)
+        // config_parse(server)
+        // init_net(server)
+        // init_cli(server)
+        return 0;
 }
 
 int server_loop(server_t * server)
 {
-    while (server->need_stop)
-    {
-    // select()
+        while (server->need_stop)
+        {
+                // select()
+                // do smth
+        }
 
-    // do smth
-    }
-
-    return 0;
+        return 0;
 }
 
 int server_destroy(server_t * server)
 {
-    free(server);
-    return 0;
+        free(server);
+        return 0;
 }
 
-int net_init_server(servet_t * server)
+int net_init_server(server_t * server)
 {
-	server->net->fd = server_create();
-	socket_bind(server->net);
-	/*
-	set non block
-    save fd LN (listen)
-    add fd_set in select
-	*/
+        server_create(&server);
+        //socket_bind(server->net);
+        /*
+        set non block
+        save fd LN (listen)
+        add fd_set in select
+        */
+        return 0;
 }
