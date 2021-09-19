@@ -3,7 +3,6 @@ project(net)
 
 include_directories(${PROJECT_SOURCE_DIR}/)
 include_directories(${PROJECT_SOURCE_DIR}/../)
-include_directories(${PROJECT_SOURCE_DIR}/../../server)
 
 set(SOURCES net.c)
 

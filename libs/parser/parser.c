@@ -98,7 +98,68 @@ int items_parse(server_t * server, cJSON * cjson_parse)
         return 0;       
 }
 
+int items_parse_client(client_t * client, cJSON * cjson_parse)
+{
+        cJSON * cjson_items = NULL;
+        cJSON * cjson_items_item = NULL;
+        cjson_items = cJSON_GetObjectItem(cjson_parse, "items");
+        printf("items:\n");
+
+        cJSON_ArrayForEach(cjson_items_item, cjson_items)
+        {
+                item_t * item = malloc(sizeof(item_t));
+                if (!item)
+                {
+                        printf("Malloc error");
+                        return -1;
+                }
+
+                if (item_parse(item, cjson_items_item))
+                {
+                        printf("item parse fail");
+                        return -1;
+                }
+                node_t * n = create_node(item);
+                if (!insert_node_first(&client->items, n)) 
+                {
+                        printf("node fail");
+                        return -1;
+                }
+                free(item);
+        }
+        return 0;       
+}
+
 int config_parse(server_t * server)
+{
+        cJSON* cjson_parse = parse_file("conf.json");
+        if (!cjson_parse)
+        {
+                printf("Parse fail");
+                return -1;
+        }
+
+        cJSON * port_json = cJSON_GetObjectItem(cjson_parse, "port");
+        if (!port_json)
+        {
+                printf("port not found");
+                return -1;
+        }
+        server->port = port_json->valueint;
+        printf("port:%d\n", server->port);
+        
+        if (items_parse(server, cjson_parse) != 0)
+        {
+                printf("items parse fail");
+                cJSON_Delete(cjson_parse);
+                return -1;
+        }
+        cJSON_Delete(cjson_parse);
+        
+        return 0;      
+}
+
+int config_parse_client(client_t * client)
 {
         cJSON* cjson_parse = parse_file("conf.json");
         if (!cjson_parse)
@@ -113,8 +174,8 @@ int config_parse(server_t * server)
                 printf("adress not found");
                 return -1;
         }
-        server->addr = address_json->valuestring;
-        printf("address:%s\n", server->addr);
+        client->addr = address_json->valuestring;
+        printf("address:%s\n", client->addr);
         
         cJSON * port_json = cJSON_GetObjectItem(cjson_parse, "port");
         if (!port_json)
@@ -122,10 +183,10 @@ int config_parse(server_t * server)
                 printf("port not found");
                 return -1;
         }
-        server->port = port_json->valueint;
-        printf("port:%d\n", server->port);
+        client->port = port_json->valueint;
+        printf("port:%d\n", client->port);
         
-        if (items_parse(server, cjson_parse) != 0)
+        if (items_parse(client, cjson_parse) != 0)
         {
                 printf("items parse fail");
                 cJSON_Delete(cjson_parse);
