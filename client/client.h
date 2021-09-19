@@ -1,10 +1,9 @@
 #pragma once
 
 #include <net/net.h>
-//#include <list/list.h>
-//#include <parser/parser.h>
+#include <list/list.h>
 #include <cli/cli.h>
-#include <cJSON/cJSON.h>
+//#include <cJSON/cJSON.h>
 
 #include <sys/time.h>
 #include <sys/select.h>
@@ -16,6 +15,7 @@ typedef struct
         uint16_t port;
         int need_stop;
         int listen_socket;
+        int high;
         node_t * items;
         fd_set inputs;
         node_t * node;
