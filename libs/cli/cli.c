@@ -5,8 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 
-//#include "server.h"
-#include <cli/cli.h>
+#include "cli.h"
 #include <list/list.h>
 #include <parser/parser.h>
 
@@ -28,18 +27,18 @@ int init_cli(server_t * server)
 
 int show_handler_cli(server_t * server)
 {
-	puts("____________________________________________________________________");
+	puts("\n____________________________________________________________________");
 	puts("|    |                      |                 |          |         |");
 	puts("| ID |         Name         |   Description   | Quantity |  Price  |");
 	puts("|____|______________________|_________________|__________|_________|");
 	
 
-        for(node_t * n = server->items; n; n = n->next)
+        /*for(node_t * n = server->items; n; n = n->next)
 	{
             item_t * i = n->data;
 	    printf("|%*d|%*s|%*s|%*d|%*d|\n", CLI_W_ID, i->id, CLI_W_NAME, i->name, CLI_W_DESC, i->desc, CLI_W_QUA, i->count, CLI_W_PRICE, i->price);
 	    puts("|____|______________________|_________________|__________|_________|");
-	}
+	}*/
 	return 0;
 }
 
@@ -81,12 +80,14 @@ int add_handler_cli(server_t * server)
 		puts("\nEnter product name: ");
 		scanf("%s", name);
 		puts("\nEnter product description: ");
-		gets(desc);
+                scanf("%[^\n]s\n", desc);
 	
 		i->count = count;
 		i->price = price;
-		strlcpy(i->name, name, sizeof(i->name));
-		strlcpy(i->desc, desc, sizeof(i->desc));
+                strncpy(i->desc, name, sizeof(i->name));
+                strncpy(i->desc, desc, sizeof(i->desc));
+		//strlcpy(i->name, name, sizeof(i->name));
+		//strlcpy(i->desc, desc, sizeof(i->desc));
 
 		/*sending*/
 
@@ -152,6 +153,7 @@ int cli_handler(server_t * server)
 				return add_handler_cli(server);
 		}
 	}
+        return 0;
 }
 
 int loop_cli(server_t * server)

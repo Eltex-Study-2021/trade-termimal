@@ -127,7 +127,7 @@ int socket_accept(net_t *net)
 	return 0;
 }
 
-int socket_set_non_block(net_t *net)
+/*int socket_set_non_block(net_t *net)
 {
 	if (-1 == fcntl(net->fd, F_SETFL, O_NONBLOCK))
 	{
@@ -136,7 +136,7 @@ int socket_set_non_block(net_t *net)
 	}
 
 	return 0;
-}
+}*/
 
 void init_item(item_t *item)
 {

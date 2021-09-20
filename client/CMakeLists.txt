@@ -1,5 +1,6 @@
 project(client)
 add_definitions(-Wall)
+add_definitions(-g)
 
 #include_directories(${PROJECT_SOURCE_DIR}/../libs/net)
 #include_directories(${PROJECT_SOURCE_DIR}/../libs/list)

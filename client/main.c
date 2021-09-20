@@ -29,7 +29,7 @@ int main()
         sa.sa_handler = &signal_handle;
         sa.sa_flags = SA_RESTART;
         sigfillset(&sa.sa_mask);
-        printf("client\n");
+        printf("client\n\n");
 
         client_t * client = NULL;
 

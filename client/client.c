@@ -14,7 +14,7 @@ int client_init(client_t * client)
 {
     //config_parse(client);
     net_init_client(client);
-    //loop_cli(client);
+    loop_cli(client);
     return 0;
 }
 
@@ -73,7 +73,7 @@ int client_loop(client_t * client)
 			}
 			if(FD_ISSET(STDIN_FILENO, &client->inputs))
 			{
-				//cli_handler(client);
+				cli_handler(client);
 			}
 		}
 	}

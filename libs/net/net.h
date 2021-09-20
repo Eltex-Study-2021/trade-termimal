@@ -40,7 +40,7 @@ int socket_listen(net_t *net);
 int socket_accept(net_t *net);
 ssize_t socket_send(net_t *, item_t *);
 ssize_t socket_recv(net_t *, item_t *);
-int socket_set_non_block(net_t *net);
+//int socket_set_non_block(net_t *net);
 //int socket_recv(net_t *, char **, int *);
 
 //test function
