@@ -1,1 +1,1 @@
-# trade-termimal
+# trade-terminal
